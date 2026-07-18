@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -9,7 +10,7 @@ export function Hero() {
       <div className="absolute inset-0 z-0">
         <img 
           src="/images/hero.jpg" 
-          alt="Mediterranean Villa in Bali" 
+          alt="Umbu Houses in Bali" 
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30" />
@@ -30,16 +31,18 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-lg md:text-2xl text-white/90 mb-10 font-light drop-shadow-md"
         >
-          Experience the perfect blend of Mediterranean elegance and Ubud's lush tropical charm.
+          Experience the perfect blend of Mediterranean elegance and Ubud's lush tropical charm at Umbu Houses.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 rounded-full shadow-xl transition-transform hover:scale-105">
-            Discover Our Villas
-          </Button>
+          <Link href="/villas">
+            <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 rounded-full shadow-xl transition-transform hover:scale-105">
+              Discover Our Villas
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>

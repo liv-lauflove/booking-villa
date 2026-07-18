@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const dummyVillas = [
-  { id: 1, name: "Villa Casa Blanca", price: "$250 / night", location: "Ubud, Bali" },
-  { id: 2, name: "Olive Grove Villa", price: "$320 / night", location: "Canggu, Bali" },
-  { id: 3, name: "Terracotta Retreat", price: "$180 / night", location: "Uluwatu, Bali" },
+  { id: 1, name: "Villa Casa Blanca", price: "Dynamic Pricing", location: "Ubud, Bali" },
+  { id: 2, name: "Olive Grove Villa", price: "Dynamic Pricing", location: "Canggu, Bali" },
+  { id: 3, name: "Terracotta Retreat", price: "Dynamic Pricing", location: "Uluwatu, Bali" },
 ];
 
 export function RecommendedVillas() {
@@ -20,8 +21,8 @@ export function RecommendedVillas() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-4">Recommended Villas</h2>
-          <p className="text-lg text-foreground/70">Explore our most popular stays.</p>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-4">Our Villas</h2>
+          <p className="text-lg text-foreground/70">Explore our recommended stays from the 6 beautiful villas at Umbu Houses.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -46,7 +47,7 @@ export function RecommendedVillas() {
                   <p className="text-muted-foreground mb-4">{villa.location}</p>
                 </div>
                 <div className="flex items-center justify-between mt-4">
-                  <span className="text-xl font-semibold text-secondary">{villa.price}</span>
+                  <span className="text-sm font-semibold text-secondary italic">*Price based on date</span>
                   <Button variant="outline" className="text-primary border-primary hover:bg-primary hover:text-primary-foreground rounded-full">
                     View Details
                   </Button>
@@ -55,6 +56,20 @@ export function RecommendedVillas() {
             </motion.div>
           ))}
         </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-16 flex justify-center"
+        >
+          <Link href="/villas">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-10 py-6 rounded-full shadow-lg">
+              View All 6 Villas
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

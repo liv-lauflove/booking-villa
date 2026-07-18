@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { AboutUs } from "@/components/AboutUs";
 import { RecommendedVillas } from "@/components/RecommendedVillas";
+import { Reviews } from "@/components/Reviews";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       <AboutUs />
       <RecommendedVillas />
+      <Reviews />
       <Footer />
     </main>
   );
