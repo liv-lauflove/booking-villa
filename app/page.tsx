@@ -1,9 +1,19 @@
 import Image from "next/image";
 
+import { Navbar } from "@/components/Navbar";
+import { Hero } from "@/components/Hero";
+import { AboutUs } from "@/components/AboutUs";
+import { RecommendedVillas } from "@/components/RecommendedVillas";
+import { Footer } from "@/components/Footer";
+
 export default function Home() {
   return (
-    <div className="">
-      <h1>Home page</h1>
-    </div>
+    <main className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
+      <Navbar />
+      <Hero />
+      <AboutUs />
+      <RecommendedVillas />
+      <Footer />
+    </main>
   );
 }
