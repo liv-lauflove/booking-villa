@@ -128,3 +128,18 @@ export async function updateVilla(id: string, formData: FormData) {
     return { success: false, error: "Gagal mengupdate villa" };
   }
 }
+
+export async function deleteVillaImage(imageId: string) {
+  try {
+    await prisma.villaImage.delete({
+      where: { id: imageId },
+    });
+
+    revalidatePath("/admin/villas");
+    revalidatePath("/villas");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete image:", error);
+    return { success: false, error: "Gagal menghapus gambar" };
+  }
+}

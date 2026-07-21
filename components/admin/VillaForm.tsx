@@ -3,7 +3,7 @@
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { createVilla, updateVilla } from "@/lib/actions/villa";
+import { createVilla, updateVilla, deleteVillaImage } from "@/lib/actions/villa";
 
 type VillaFormProps = {
   initialData?: any;
@@ -21,8 +21,22 @@ export default function VillaForm({ initialData }: VillaFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([]);
+  const [existingImages, setExistingImages] = useState<any[]>(initialData?.images || []);
+  const [deletingImageId, setDeletingImageId] = useState<string | null>(null);
 
   const isEdit = !!initialData;
+
+  const handleDeleteExistingImage = async (imageId: string) => {
+    if (!confirm("Yakin ingin menghapus gambar ini? Tindakan ini tidak bisa dibatalkan.")) return;
+    setDeletingImageId(imageId);
+    const result = await deleteVillaImage(imageId);
+    if (result.success) {
+      setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
+    } else {
+      setError(result.error || "Gagal menghapus gambar");
+    }
+    setDeletingImageId(null);
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -185,23 +199,31 @@ export default function VillaForm({ initialData }: VillaFormProps) {
         )}
         
         {/* Existing Images in DB (For Edit Mode) */}
-        {isEdit && initialData?.images && initialData.images.length > 0 && (
+        {isEdit && existingImages.length > 0 && (
           <div className="mt-6 border-t border-border pt-4">
             <p className="text-sm font-semibold text-slate-700 mb-3">Gambar Tersimpan di Database:</p>
-            <div className="flex gap-4 flex-wrap">
-              {initialData.images.map((img: any) => (
-                <div key={img.id} className="relative group rounded-md overflow-hidden bg-white border border-border shadow-sm">
-                  <div className="w-24 h-24 bg-muted">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {existingImages.map((img: any) => (
+                <div key={img.id} className="relative group rounded-lg overflow-hidden bg-white border border-border shadow-sm">
+                  <div className="w-full h-24 bg-muted">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={img.url} alt={img.title} className="w-full h-full object-cover" />
                   </div>
-                  <div className="p-2 text-xs font-medium text-slate-700 text-center truncate w-24">
+                  <div className="p-2 text-xs font-medium text-slate-700 text-center truncate">
                     {img.title}
                   </div>
+                  <button 
+                    type="button" 
+                    onClick={() => handleDeleteExistingImage(img.id)}
+                    disabled={deletingImageId === img.id}
+                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
+                  >
+                    {deletingImageId === img.id ? "…" : "×"}
+                  </button>
                 </div>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground mt-2">Gambar baru yang diunggah akan ditambahkan ke koleksi ini.</p>
+            <p className="text-xs text-muted-foreground mt-2">Hover gambar lalu klik tombol × merah untuk menghapus. Gambar baru yang diunggah akan ditambahkan ke koleksi ini.</p>
           </div>
         )}
       </div>

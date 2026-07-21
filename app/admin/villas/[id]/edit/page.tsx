@@ -9,6 +9,7 @@ export default async function EditVillaPage({ params }: { params: { id: string }
   const { id } = await params;
   const villa = await prisma.villa.findUnique({
     where: { id },
+    include: { images: true },
   });
 
   if (!villa) {
