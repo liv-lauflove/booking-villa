@@ -40,7 +40,7 @@ export function Reviews() {
                   </svg>
                 ))}
               </div>
-              <p className="text-foreground/80 italic mb-6">"{review.comment}"</p>
+              <p className="text-foreground/80 italic mb-6">&quot;{review.comment}&quot;</p>
               <p className="font-bold text-foreground">{review.name}</p>
             </motion.div>
           ))}

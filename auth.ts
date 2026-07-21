@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import Google from "next-auth/providers/google"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  // @ts-expect-error Type mismatch with beta version
   adapter: PrismaAdapter(prisma),
   providers: [Google],
   session: { strategy: "jwt" },
@@ -27,7 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       // Memasukkan role dari token ke object session agar bisa dibaca di frontend/komponen
       if (session.user) {
-        session.user.role = token.role;
+        session.user.role = token.role as string;
       }
       return session;
     }
