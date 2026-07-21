@@ -4,6 +4,7 @@ import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createVilla, updateVilla, deleteVillaImage } from "@/lib/actions/villa";
+import { ConfirmDeleteModal } from "@/components/admin/ConfirmDeleteModal";
 
 type VillaFormProps = {
   initialData?: any;
@@ -23,19 +24,21 @@ export default function VillaForm({ initialData }: VillaFormProps) {
   const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([]);
   const [existingImages, setExistingImages] = useState<any[]>(initialData?.images || []);
   const [deletingImageId, setDeletingImageId] = useState<string | null>(null);
+  const [imageToDelete, setImageToDelete] = useState<{id: string, title: string} | null>(null);
 
   const isEdit = !!initialData;
 
-  const handleDeleteExistingImage = async (imageId: string) => {
-    if (!confirm("Yakin ingin menghapus gambar ini? Tindakan ini tidak bisa dibatalkan.")) return;
-    setDeletingImageId(imageId);
-    const result = await deleteVillaImage(imageId);
+  const handleDeleteExistingImage = async () => {
+    if (!imageToDelete) return;
+    setDeletingImageId(imageToDelete.id);
+    const result = await deleteVillaImage(imageToDelete.id);
     if (result.success) {
-      setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
+      setExistingImages((prev) => prev.filter((img) => img.id !== imageToDelete.id));
     } else {
       setError(result.error || "Gagal menghapus gambar");
     }
     setDeletingImageId(null);
+    setImageToDelete(null);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +91,15 @@ export default function VillaForm({ initialData }: VillaFormProps) {
   }
 
   return (
+    <>
+    {imageToDelete && (
+      <ConfirmDeleteModal
+        title="Hapus Gambar?"
+        message={`Yakin ingin menghapus gambar "${imageToDelete.title}"? Tindakan ini tidak bisa dibatalkan.`}
+        onConfirm={handleDeleteExistingImage}
+        onCancel={() => setImageToDelete(null)}
+      />
+    )}
     <form onSubmit={onSubmit} className="space-y-6 max-w-3xl bg-white p-8 rounded-xl border border-border shadow-sm">
       {error && (
         <div className="bg-red-50 text-red-600 p-4 rounded-lg text-sm border border-red-200">
@@ -214,7 +226,7 @@ export default function VillaForm({ initialData }: VillaFormProps) {
                   </div>
                   <button 
                     type="button" 
-                    onClick={() => handleDeleteExistingImage(img.id)}
+                    onClick={() => setImageToDelete({ id: img.id, title: img.title })}
                     disabled={deletingImageId === img.id}
                     className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-md opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
                   >
@@ -246,5 +258,6 @@ export default function VillaForm({ initialData }: VillaFormProps) {
         </Button>
       </div>
     </form>
+    </>
   );
 }
