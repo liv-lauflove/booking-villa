@@ -15,7 +15,7 @@ model Villa {
   id             String           @id @default(cuid())
   name           String 
   description    String
-  image          String 
+  images         VillaImage[]
   price          Int
   capacity       Int              @default(1)
   createdAt      DateTime         @default(now())
@@ -122,4 +122,13 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([provider, providerAccountId])
+}
+
+model VillaImage {
+  id        String   @id @default(cuid())
+  url       String
+  title     String
+  villaId   String
+  villa     Villa    @relation(fields: [villaId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
