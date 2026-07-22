@@ -27,6 +27,9 @@ export default async function AdminLayout({
           <a href="/admin/villas" className="block px-4 py-3 rounded-xl hover:bg-muted text-foreground transition-colors font-medium">
             Manajemen Villa
           </a>
+          <a href="/admin/reservations" className="block px-4 py-3 rounded-xl hover:bg-muted text-foreground transition-colors font-medium">
+            Transaksi & Reservasi
+          </a>
           <a href="/" className="block px-4 py-3 rounded-xl hover:bg-muted text-muted-foreground transition-colors font-medium mt-auto">
             &larr; Ke Website Utama
           </a>
