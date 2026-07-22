@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import ImageGallery from "@/components/villa/ImageGallery";
 import BookingForm from "@/components/villa/BookingForm";
 import Link from "next/link";
-import { MapPin, Users, Sparkles, CheckCircle2, ArrowLeft } from "lucide-react";
+import { MapPin, Users, Sparkles, CheckCircle, ArrowLeft } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +58,7 @@ export default async function VillaDetailPage(props: { params: Promise<{ id: str
               <div className="grid grid-cols-2 gap-4">
                 {["Private Pool", "Free WiFi", "Air Conditioning", "Kitchen", "Free Parking", "Daily Housekeeping"].map((amenity, i) => (
                   <div key={i} className="flex items-center gap-3 text-slate-700">
-                    <CheckCircle2 className="w-5 h-5 text-green-500" />
+                    <CheckCircle className="w-5 h-5 text-green-500" />
                     <span>{amenity}</span>
                   </div>
                 ))}

@@ -48,13 +48,13 @@ export default function ReservationTable({ reservations: initialReservations }: 
       ) : (
         <div className="overflow-x-auto overflow-y-visible">
           <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-muted/50 border-b border-border">
-                <th className="px-6 py-4 font-medium text-slate-700">ID & Tanggal Order</th>
-                <th className="px-6 py-4 font-medium text-slate-700">Pemesan</th>
-                <th className="px-6 py-4 font-medium text-slate-700">Detail Villa & Inap</th>
-                <th className="px-6 py-4 font-medium text-slate-700">Total Biaya</th>
-                <th className="px-6 py-4 font-medium text-slate-700">Status Booking</th>
+            <thead className="sticky top-0 z-10 bg-slate-50 backdrop-blur-md shadow-sm">
+              <tr className="border-b border-border">
+                <th className="px-6 py-4 font-medium text-slate-700 whitespace-nowrap">ID & Tanggal Order</th>
+                <th className="px-6 py-4 font-medium text-slate-700 whitespace-nowrap">Pemesan & Detail Tamu</th>
+                <th className="px-6 py-4 font-medium text-slate-700 whitespace-nowrap">Detail Villa & Inap</th>
+                <th className="px-6 py-4 font-medium text-slate-700 whitespace-nowrap">Total Biaya</th>
+                <th className="px-6 py-4 font-medium text-slate-700 whitespace-nowrap text-right">Aksi Status</th>
               </tr>
             </thead>
             <tbody>
@@ -64,14 +64,23 @@ export default function ReservationTable({ reservations: initialReservations }: 
                     <p className="font-mono text-xs text-slate-500 mb-1">#{res.id.slice(0,8).toUpperCase()}</p>
                     <p className="text-sm font-medium">{format(new Date(res.createdAt), "dd MMM yyyy, HH:mm")}</p>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                  <td className="px-6 py-4 min-w-[250px]">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-1">
                         <User className="w-4 h-4 text-slate-500" />
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <p className="font-semibold text-slate-800 text-sm">{res.user?.name || "User Tidak Diketahui"}</p>
-                        <p className="text-xs text-muted-foreground">{res.user?.email}</p>
+                        <p className="text-xs text-muted-foreground mb-3">{res.user?.email}</p>
+                        
+                        {res.guestName && (
+                          <div className="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-200/60 space-y-1">
+                            <p className="font-medium text-slate-700">{res.guestName} <span className="text-muted-foreground font-normal">({res.guestCount} Tamu)</span></p>
+                            <p>{res.guestPhone}</p>
+                            <p className="truncate" title={res.guestEmail}>{res.guestEmail}</p>
+                            {res.notes && <p className="mt-1.5 pt-1.5 border-t border-slate-200 italic text-slate-500">"{res.notes}"</p>}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </td>
@@ -91,7 +100,7 @@ export default function ReservationTable({ reservations: initialReservations }: 
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 relative">
+                  <td className="px-6 py-4 relative whitespace-nowrap text-right">
                     <div className="relative inline-block text-left">
                       <Button 
                         variant="outline" 

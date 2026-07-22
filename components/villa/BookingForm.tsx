@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { createReservation } from "@/lib/actions/reservation";
+import { useRouter } from "next/navigation";
 
 type BookingFormProps = {
   villaId: string;
@@ -14,12 +16,22 @@ type BookingFormProps = {
 };
 
 export default function BookingForm({ villaId, pricePerNight }: BookingFormProps) {
+  const router = useRouter();
   const [date, setDate] = useState<{ from: Date | undefined; to: Date | undefined }>({
     from: undefined,
     to: undefined,
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'error'|'success', text: string } | null>(null);
+
+  const [guestDetails, setGuestDetails] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    guests: 1,
+    notes: ""
+  });
+  const [countryCode, setCountryCode] = useState("+62");
 
   const nights = date.from && date.to ? differenceInDays(date.to, date.from) : 0;
   const totalPrice = nights > 0 ? nights * pricePerNight : 0;
@@ -30,15 +42,28 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
       return;
     }
 
+    if (!guestDetails.name || !guestDetails.phone || !guestDetails.email) {
+      setMessage({ type: 'error', text: 'Mohon lengkapi data tamu (Nama, No HP, Email).' });
+      return;
+    }
+
     setLoading(true);
     setMessage(null);
 
-    // TODO: Connect to actual server action (Issue #4)
-    // Mocking for now since Issue #4 server action will be implemented next or alongside
-    setTimeout(() => {
-      setMessage({ type: 'success', text: 'Reservasi berhasil! Menunggu pembayaran...' });
+    const fullPhoneNumber = `${countryCode}${guestDetails.phone}`;
+    const finalGuestDetails = { ...guestDetails, phone: fullPhoneNumber };
+
+    const result = await createReservation(villaId, date.from, date.to, totalPrice, finalGuestDetails);
+
+    if (result.success) {
+      setMessage({ type: 'success', text: 'Reservasi berhasil! Mengarahkan ke halaman pesanan...' });
+      setTimeout(() => {
+        router.push("/reservations");
+      }, 2000);
+    } else {
+      setMessage({ type: 'error', text: result.error || 'Terjadi kesalahan sistem.' });
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -83,6 +108,64 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
             />
           </PopoverContent>
         </Popover>
+
+        {/* Form Data Tamu */}
+        <div className="space-y-3 pt-4 border-t border-border mt-4">
+          <label className="text-sm font-semibold text-slate-700">Detail Tamu</label>
+          <input 
+            type="text" 
+            placeholder="Nama Lengkap" 
+            value={guestDetails.name}
+            onChange={(e) => setGuestDetails({...guestDetails, name: e.target.value})}
+            className="w-full px-4 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50"
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="flex">
+              <select 
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                className="px-3 py-2 rounded-l-xl border border-r-0 border-border bg-muted/50 text-sm focus:outline-none cursor-pointer"
+              >
+                <option value="+62">🇮🇩 +62</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+61">🇦🇺 +61</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+65">🇸🇬 +65</option>
+                <option value="+81">🇯🇵 +81</option>
+              </select>
+              <input 
+                type="tel" 
+                placeholder="8123456789" 
+                value={guestDetails.phone}
+                onChange={(e) => setGuestDetails({...guestDetails, phone: e.target.value.replace(/[^0-9]/g, '')})}
+                className="w-full px-4 py-2 rounded-r-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50"
+              />
+            </div>
+            <input 
+              type="email" 
+              placeholder="Alamat Email" 
+              value={guestDetails.email}
+              onChange={(e) => setGuestDetails({...guestDetails, email: e.target.value})}
+              className="w-full px-4 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="text-sm text-slate-600 flex-1">Jumlah Tamu</label>
+            <input 
+              type="number" 
+              min="1"
+              value={guestDetails.guests}
+              onChange={(e) => setGuestDetails({...guestDetails, guests: parseInt(e.target.value) || 1})}
+              className="w-20 px-3 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 text-center"
+            />
+          </div>
+          <textarea 
+            placeholder="Catatan untuk Admin (Opsional)" 
+            value={guestDetails.notes}
+            onChange={(e) => setGuestDetails({...guestDetails, notes: e.target.value})}
+            className="w-full px-4 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 min-h-[80px]"
+          />
+        </div>
 
         {nights > 0 && (
           <div className="bg-muted p-4 rounded-xl mt-6 space-y-2 text-sm text-slate-700 animate-in fade-in">

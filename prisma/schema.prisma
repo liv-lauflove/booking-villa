@@ -55,11 +55,16 @@ model Reservation {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   villaId   String
   villa     Villa             @relation(fields: [villaId], references: [id], onDelete: Cascade)
-  status    ReservationStatus @default(PENDING)
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  status     ReservationStatus @default(PENDING)
+  guestName  String?
+  guestPhone String?
+  guestEmail String?
+  guestCount Int               @default(1)
+  notes      String?           @db.Text
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
   
-  payment   Payment?
+  payment    Payment?
 
   @@index([userId])
   @@index([villaId])
