@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
-  "/images/hero.jpg",
-  "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop"
+  "/images/villa2.png",
+  "/images/image.png",
+  "/images/villa1.png"
 ];
 
 export function AboutUs() {
@@ -54,13 +54,13 @@ export function AboutUs() {
             className="flex-1"
           >
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-6">
-              Your Mediterranean Haven in Bali
+              Your Balinese Retreat in Ubud
             </h2>
             <p className="text-lg text-foreground/80 leading-relaxed mb-6">
-              Welcome to Umbu Houses, where the timeless beauty of Mediterranean architecture meets the serene landscapes of Ubud. Our handpicked properties offer an unforgettable escape for those seeking luxury, peace, and unparalleled comfort.
+              Welcome to Umbu Houses, where authentic Balinese charm meets the serene landscapes of Ubud. Our carefully curated villas offer an unforgettable escape for those seeking comfort, tranquility, and a genuine island experience.
             </p>
             <p className="text-lg text-foreground/80 leading-relaxed">
-              Every corner is designed with natural earthy tones, sage greens, and rustic textures to bring you a sense of grounding and tranquility.
+              Every corner is thoughtfully designed with natural materials, warm earthy tones, lush tropical surroundings, and timeless Balinese touches to create a peaceful sanctuary where you can truly unwind.
             </p>
           </motion.div>
         </div>

@@ -1,20 +1,12 @@
 import NextAuth from "next-auth"
 import { prisma } from "./lib/prisma"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import Google from "next-auth/providers/google"
+import { authConfig } from "./auth.config"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   // @ts-expect-error Type mismatch with beta version
   adapter: PrismaAdapter(prisma),
-  providers: [
-    Google({
-      allowDangerousEmailAccountLinking: true,
-    })
-  ],
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/signin"
-  },
   callbacks: {
     async jwt({ token, user }) {
       // Saat pertama login, ambil dari object user

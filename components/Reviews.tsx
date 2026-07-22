@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 
 const dummyReviews = [
-  { id: 1, name: "Sarah Jenkins", comment: "Absolutely breathtaking! Umbu Houses gave us the perfect Mediterranean escape right in Bali. Will definitely come back.", rating: 5 },
+  { id: 1, name: "Sarah Jenkins", comment: "Absolutely breathtaking! Umbu Houses gave us the perfect escape right in Bali. Will definitely come back.", rating: 5 },
   { id: 2, name: "Michael Chang", comment: "The design is flawless, and the ambiance is so peaceful. Highly recommended for anyone wanting a luxurious getaway.", rating: 5 },
-  { id: 3, name: "Emma Robertson", comment: "We stayed in one of their 6 villas and the experience was top-notch. Great hospitality and beautiful interiors.", rating: 5 },
+  { id: 3, name: "Emma Robertson", comment: "We stayed in one of their villas and the experience was top-notch. Great hospitality and beautiful interiors.", rating: 5 },
 ];
 
 export function Reviews() {

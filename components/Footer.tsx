@@ -44,20 +44,20 @@ export function Footer() {
           <div>
             <h2 className="text-3xl font-serif font-bold mb-4">Umbu Houses</h2>
             <p className="text-primary-foreground/80 max-w-xs mx-auto md:mx-0">
-              Experience the Mediterranean lifestyle in the heart of Bali. Six exclusive villas waiting for your arrival.
+              Experience the Balinese lifestyle in the heart of Ubud. Six exclusive villas waiting for your arrival.
             </p>
           </div>
           <div>
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
             <ul className="space-y-3 text-primary-foreground/80 flex flex-col items-center md:items-start">
-              <li className="flex items-center gap-2"><Phone className="w-5 h-5" /> +62 812 3456 7890</li>
-              <li className="flex items-center gap-2"><Mail className="w-5 h-5" /> hello@umbuhouses.com</li>
+              <li className="flex items-center gap-2"><Phone className="w-5 h-5" /> <a href="https://wa.me/6282339393859">+62 823 3939 3859</a></li>
+              <li className="flex items-center gap-2"><Mail className="w-5 h-5" /> umbuhouses@gmail.com</li>
             </ul>
           </div>
           <div>
             <h3 className="text-xl font-bold mb-4">Follow Us</h3>
             <div className="flex gap-4 justify-center md:justify-start">
-              <a href="#" className="p-3 bg-primary-foreground/10 rounded-full hover:bg-primary-foreground/20 transition-colors">
+              <a href="https://www.instagram.com/umbu.houses/" className="p-3 bg-primary-foreground/10 rounded-full hover:bg-primary-foreground/20 transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="p-3 bg-primary-foreground/10 rounded-full hover:bg-primary-foreground/20 transition-colors">

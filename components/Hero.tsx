@@ -31,7 +31,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-lg md:text-2xl text-white/90 mb-10 font-light drop-shadow-md"
         >
-          Experience the perfect blend of Mediterranean elegance and Ubud&apos;s lush tropical charm at Umbu Houses.
+         Experience the authentic charm of Balinese living surrounded by Ubud's lush tropical landscapes at Umbu Houses.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
