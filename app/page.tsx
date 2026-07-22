@@ -6,6 +6,8 @@ import { Reviews } from "@/components/Reviews";
 import { Footer } from "@/components/Footer";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const recommendedVillas = await prisma.villa.findMany({
     take: 3,

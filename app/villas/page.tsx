@@ -4,9 +4,20 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function VillasPage() {
-  // Ambil data villa beserta gambarnya dari database
+import SearchBar from "@/components/villa/SearchBar";
+
+export default async function VillasPage(props: { searchParams?: Promise<{ query?: string }> }) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+
+  // Ambil data villa beserta gambarnya dari database dengan filter
   const villas = await prisma.villa.findMany({
+    where: {
+      OR: [
+        { name: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
+      ],
+    },
     orderBy: { createdAt: "desc" },
     include: { images: true }
   });
@@ -26,21 +37,9 @@ export default async function VillasPage() {
         </div>
       </section>
 
-      {/* Filter & Search Placeholder */}
+      {/* Filter & Search */}
       <section className="container mx-auto px-6 max-w-6xl -mt-8 relative z-20">
-        <div className="bg-card p-3 rounded-2xl shadow-xl border border-border flex flex-col md:flex-row gap-3">
-          <div className="flex-1 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
-            <input 
-              type="text" 
-              placeholder="Search by name, location, or amenities..." 
-              className="w-full pl-12 pr-4 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all text-foreground"
-            />
-          </div>
-          <Button className="py-4 h-auto px-10 rounded-xl bg-secondary text-secondary-foreground text-lg hover:bg-secondary/90 hover:scale-105 transition-all shadow-md font-semibold">
-            Search
-          </Button>
-        </div>
+        <SearchBar />
       </section>
 
       {/* Villas Grid */}
