@@ -4,9 +4,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
-export function Navbar() {
+export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -37,9 +38,22 @@ export function Navbar() {
             </motion.div>
           ))}
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6">
-              Sign In
-            </Button>
+            {isLoggedIn ? (
+              <Button 
+                onClick={() => signOut()}
+                variant="outline"
+                className="rounded-full px-6 flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            ) : (
+              <Link href="/signin">
+                <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6">
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </motion.div>
         </div>
         <div className="lg:hidden">
@@ -69,9 +83,22 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full w-full mt-2">
-                Sign In
-              </Button>
+              {isLoggedIn ? (
+                <Button 
+                  onClick={() => signOut()}
+                  variant="outline"
+                  className="rounded-full w-full mt-2 flex items-center justify-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </Button>
+              ) : (
+                <Link href="/signin" onClick={() => setIsOpen(false)}>
+                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full w-full mt-2">
+                    Sign In
+                  </Button>
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

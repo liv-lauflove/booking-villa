@@ -6,7 +6,11 @@ import Google from "next-auth/providers/google"
 export const { handlers, signIn, signOut, auth } = NextAuth({
   // @ts-expect-error Type mismatch with beta version
   adapter: PrismaAdapter(prisma),
-  providers: [Google],
+  providers: [
+    Google({
+      allowDangerousEmailAccountLinking: true,
+    })
+  ],
   session: { strategy: "jwt" },
   pages: {
     signIn: "/signin"

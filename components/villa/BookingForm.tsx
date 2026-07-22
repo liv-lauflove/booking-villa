@@ -9,13 +9,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { createReservation } from "@/lib/actions/reservation";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type BookingFormProps = {
   villaId: string;
   pricePerNight: number;
+  isLoggedIn: boolean;
 };
 
-export default function BookingForm({ villaId, pricePerNight }: BookingFormProps) {
+export default function BookingForm({ villaId, pricePerNight, isLoggedIn }: BookingFormProps) {
   const router = useRouter();
   const [date, setDate] = useState<{ from: Date | undefined; to: Date | undefined }>({
     from: undefined,
@@ -43,7 +45,7 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
     }
 
     if (!guestDetails.name || !guestDetails.phone || !guestDetails.email) {
-      setMessage({ type: 'error', text: 'Mohon lengkapi data tamu (Nama, No HP, Email).' });
+      setMessage({ type: 'error', text: 'Please complete all guest details (Name, Phone, Email).' });
       return;
     }
 
@@ -55,13 +57,13 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
 
     const result = await createReservation(villaId, date.from, date.to, totalPrice, finalGuestDetails);
 
-    if (result.success) {
-      setMessage({ type: 'success', text: 'Reservasi berhasil! Mengarahkan ke halaman pesanan...' });
+    if (result.success && result.data) {
+      setMessage({ type: 'success', text: 'Reservation successful! Redirecting to checkout...' });
       setTimeout(() => {
-        router.push("/reservations");
+        router.push(`/checkout/${result.data.id}`);
       }, 2000);
     } else {
-      setMessage({ type: 'error', text: result.error || 'Terjadi kesalahan sistem.' });
+      setMessage({ type: 'error', text: result.error || 'A system error occurred.' });
       setLoading(false);
     }
   };
@@ -72,11 +74,11 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
         <p className="text-3xl font-bold text-primary">
           Rp {pricePerNight.toLocaleString("id-ID")}
         </p>
-        <p className="text-muted-foreground text-sm">per malam</p>
+        <p className="text-muted-foreground text-sm">per night</p>
       </div>
 
       <div className="space-y-4">
-        <label className="text-sm font-semibold text-slate-700">Pilih Tanggal Menginap</label>
+        <label className="text-sm font-semibold text-slate-700">Select Dates</label>
         <Popover>
           <PopoverTrigger
             className={cn(
@@ -94,7 +96,7 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Check-in — Check-out</span>
+              <span>Select Check-in Dates</span>
             )}
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="center">
@@ -111,10 +113,10 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
 
         {/* Form Data Tamu */}
         <div className="space-y-3 pt-4 border-t border-border mt-4">
-          <label className="text-sm font-semibold text-slate-700">Detail Tamu</label>
+          <label className="text-sm font-semibold text-slate-700">Guest Details</label>
           <input 
             type="text" 
-            placeholder="Nama Lengkap" 
+            placeholder="Full Name" 
             value={guestDetails.name}
             onChange={(e) => setGuestDetails({...guestDetails, name: e.target.value})}
             className="w-full px-4 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50"
@@ -127,11 +129,24 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
                 className="px-3 py-2 rounded-l-xl border border-r-0 border-border bg-muted/50 text-sm focus:outline-none cursor-pointer"
               >
                 <option value="+62">🇮🇩 +62</option>
-                <option value="+1">🇺🇸 +1</option>
+                <option value="+1">🇺🇸/🇨🇦 +1</option>
                 <option value="+61">🇦🇺 +61</option>
                 <option value="+44">🇬🇧 +44</option>
                 <option value="+65">🇸🇬 +65</option>
                 <option value="+81">🇯🇵 +81</option>
+                <option value="+82">🇰🇷 +82</option>
+                <option value="+60">🇲🇾 +60</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+91">🇮🇳 +91</option>
+                <option value="+971">🇦🇪 +971</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+39">🇮🇹 +39</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+31">🇳🇱 +31</option>
+                <option value="+41">🇨🇭 +41</option>
+                <option value="+64">🇳🇿 +64</option>
+                <option value="+353">🇮🇪 +353</option>
               </select>
               <input 
                 type="tel" 
@@ -143,14 +158,14 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
             </div>
             <input 
               type="email" 
-              placeholder="Alamat Email" 
+              placeholder="Email Address" 
               value={guestDetails.email}
               onChange={(e) => setGuestDetails({...guestDetails, email: e.target.value})}
               className="w-full px-4 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50"
             />
           </div>
           <div className="flex items-center gap-3">
-            <label className="text-sm text-slate-600 flex-1">Jumlah Tamu</label>
+            <label className="text-sm text-slate-600 flex-1">Number of Guests</label>
             <input 
               type="number" 
               min="1"
@@ -160,7 +175,7 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
             />
           </div>
           <textarea 
-            placeholder="Catatan untuk Admin (Opsional)" 
+            placeholder="Additional Notes (Optional)" 
             value={guestDetails.notes}
             onChange={(e) => setGuestDetails({...guestDetails, notes: e.target.value})}
             className="w-full px-4 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 min-h-[80px]"
@@ -170,11 +185,11 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
         {nights > 0 && (
           <div className="bg-muted p-4 rounded-xl mt-6 space-y-2 text-sm text-slate-700 animate-in fade-in">
             <div className="flex justify-between">
-              <span>Rp {pricePerNight.toLocaleString("id-ID")} x {nights} malam</span>
+              <span>Rp {pricePerNight.toLocaleString("id-ID")} x {nights} nights</span>
               <span>Rp {totalPrice.toLocaleString("id-ID")}</span>
             </div>
-            <div className="flex justify-between font-bold text-lg text-primary pt-2 border-t border-border mt-2">
-              <span>Total Estimasi</span>
+            <div className="flex justify-between font-bold text-base text-slate-900 border-t border-border pt-2 mt-2">
+              <span>Total</span>
               <span>Rp {totalPrice.toLocaleString("id-ID")}</span>
             </div>
           </div>
@@ -187,16 +202,23 @@ export default function BookingForm({ villaId, pricePerNight }: BookingFormProps
           </div>
         )}
 
-        <Button 
-          onClick={handleBooking}
-          disabled={loading || !date.from || !date.to}
-          className="w-full py-6 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg font-bold shadow-md mt-6"
-        >
-          {loading ? "Memproses..." : "Pesan Sekarang"}
-        </Button>
-        <p className="text-center text-xs text-muted-foreground mt-2">
-          Anda belum dikenakan biaya.
-        </p>
+        <div className="mt-6 pt-6 border-t border-border">
+          {isLoggedIn ? (
+            <Button 
+              className="w-full py-6 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 text-lg font-bold shadow-xl transition-all hover:-translate-y-1"
+              onClick={handleBooking}
+              disabled={loading || !date.from || !date.to}
+            >
+              {loading ? "Processing..." : "Book Now"}
+            </Button>
+          ) : (
+            <Link href="/signin">
+              <Button className="w-full py-6 rounded-xl bg-slate-800 text-white hover:bg-slate-700 text-lg font-bold shadow-xl">
+                Login to Book
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

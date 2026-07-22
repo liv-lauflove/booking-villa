@@ -137,11 +137,20 @@ export default async function ReservationsPage() {
                       </span>
                     </div>
                     
-                    <Link href={`/villas/${res.villa.id}`}>
-                      <Button variant="outline" className="rounded-full flex items-center gap-2">
-                        View Villa <ChevronRight className="w-4 h-4" />
-                      </Button>
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <Link href={`/villas/${res.villa.id}`}>
+                        <Button variant="outline" className="rounded-full flex items-center gap-2">
+                          View Villa
+                        </Button>
+                      </Link>
+                      {res.payment?.status !== 'PAID' && res.status !== 'CANCELLED' && (
+                        <Link href={`/checkout/${res.id}`}>
+                          <Button className="rounded-full flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                            Complete Payment <ChevronRight className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

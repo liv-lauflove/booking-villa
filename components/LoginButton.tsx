@@ -6,7 +6,7 @@ export function LoginButton({ className }: { className?: string }) {
         <form
             action={async () => {
                 "use server";
-                await signIn("google", { redirectTo: "/" });
+                await signIn("google", { redirectTo: "/auth-redirect" });
             }}
             className="w-full"
         >

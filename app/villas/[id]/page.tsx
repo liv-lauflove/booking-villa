@@ -4,11 +4,14 @@ import ImageGallery from "@/components/villa/ImageGallery";
 import BookingForm from "@/components/villa/BookingForm";
 import Link from "next/link";
 import { MapPin, Users, Sparkles, CheckCircle, ArrowLeft } from "lucide-react";
+import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function VillaDetailPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
+  const session = await auth();
+  
   const villa = await prisma.villa.findUnique({
     where: { id: params.id },
     include: { images: true }
@@ -68,7 +71,7 @@ export default async function VillaDetailPage(props: { params: Promise<{ id: str
 
           {/* Right Column - Booking Widget */}
           <div className="lg:col-span-1">
-            <BookingForm villaId={villa.id} pricePerNight={villa.price} />
+            <BookingForm villaId={villa.id} pricePerNight={villa.price} isLoggedIn={!!session?.user} />
           </div>
 
         </div>
