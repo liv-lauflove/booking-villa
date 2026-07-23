@@ -170,12 +170,12 @@ erDiagram
     Reservation ||--o| Payment : "paid via"
 
     User {
-        string id PK "cuid()"
+        string id PK
         string name
         string email UK
         datetime emailVerified
         string image
-        string role "default: user"
+        string role
         string phone
         datetime createdAt
         datetime updatedAt
@@ -196,17 +196,17 @@ erDiagram
     }
 
     Villa {
-        string id PK "cuid()"
+        string id PK
         string name
         string description
         int price
-        int capacity "default: 1"
+        int capacity
         datetime createdAt
         datetime updatedAt
     }
 
     VillaImage {
-        string id PK "cuid()"
+        string id PK
         string url
         string title
         string villaId FK
@@ -214,41 +214,41 @@ erDiagram
     }
 
     Amenity {
-        string id PK "cuid()"
+        string id PK
         string name
         datetime createdAt
         datetime updatedAt
     }
 
     VillaAmenities {
-        string id PK "cuid()"
-        string villaId FK "@@unique"
-        string amenityId FK "@@unique"
+        string id PK
+        string villaId FK
+        string amenityId FK
     }
 
     Reservation {
-        string id PK "cuid()"
+        string id PK
         datetime startDate
         datetime endDate
         int price
         string userId FK
         string villaId FK
-        enum status "PENDING | CONFIRMED | CANCELLED | COMPLETED"
+        string status
         string guestName
         string guestPhone
         string guestEmail
-        int guestCount "default: 1"
+        int guestCount
         string notes
         datetime createdAt
         datetime updatedAt
     }
 
     Payment {
-        string id PK "cuid()"
-        enum method "CREDIT_CARD | BANK_TRANSFER | E_WALLET"
+        string id PK
+        string method
         int amount
-        enum status "UNPAID | PENDING | PAID | FAILED | REFUNDED"
-        string reservationId FK_UK
+        string status
+        string reservationId FK
         datetime createdAt
         datetime updatedAt
     }
