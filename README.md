@@ -1,4 +1,4 @@
-# 🏡 Umbu Houses — Villa Booking Web Application
+#  Umbu Houses — Villa Booking Web Application
 
 <div align="center">
 
@@ -17,36 +17,36 @@
 
 ---
 
-## ✨ Features
+##  Features
 
-### 👤 Guest (No Login Required)
-- 🏠 **Landing Page** — Hero section, about us, recommended villas, reviews, and footer
-- 🔍 **Villa Catalog** — Browse all available villas with search functionality
-- 📸 **Villa Detail** — View villa photos, amenities, capacity, and pricing
+###  Guest (No Login Required)
+-  **Landing Page** — Hero section, about us, recommended villas, reviews, and footer
+-  **Villa Catalog** — Browse all available villas with search functionality
+-  **Villa Detail** — View villa photos, amenities, capacity, and pricing
 
-### 🔐 Authenticated User
-- 📅 **Date Picker Booking** — Select check-in/check-out dates with availability validation
-- 🚫 **Double Booking Prevention** — System automatically blocks dates already reserved
-- 💳 **Online Payment** — Secure checkout via Midtrans payment gateway
-- 📋 **My Reservations** — Track booking history and payment status
-- 💰 **Complete Payment** — Resume unpaid bookings directly from reservation list
+###  Authenticated User
+-  **Date Picker Booking** — Select check-in/check-out dates with availability validation
+-  **Double Booking Prevention** — System automatically blocks dates already reserved
+-  **Online Payment** — Secure checkout via Midtrans payment gateway
+-  **My Reservations** — Track booking history and payment status
+-  **Complete Payment** — Resume unpaid bookings directly from reservation list
 
-### 🛠️ Admin Dashboard
-- 📊 **Dashboard Overview** — Statistics with interactive charts (Recharts)
-- 🏡 **Villa CRUD** — Create, read, update, and delete villas with image uploads
-- 📷 **Multi-Image Gallery** — Upload multiple photos per villa
-- 📦 **Reservation Management** — View all bookings, update status (Confirm/Cancel)
-- 🔒 **Role-Based Access** — Only admin accounts can access the dashboard
+###  Admin Dashboard
+-  **Dashboard Overview** — Statistics with interactive charts (Recharts)
+-  **Villa CRUD** — Create, read, update, and delete villas with image uploads
+-  **Multi-Image Gallery** — Upload multiple photos per villa
+-  **Reservation Management** — View all bookings, update status (Confirm/Cancel)
+-  **Role-Based Access** — Only admin accounts can access the dashboard
 
-### 🛡️ Security & Authentication
-- 🔑 **Google OAuth** — Sign in with Google via NextAuth v5 (Auth.js)
-- 🎫 **JWT Strategy** — Secure session management with role embedded in token
-- 🚧 **Route Protection** — Middleware (proxy.ts) protects admin and user-only routes
-- 🔄 **Auto Redirect** — Admins are redirected to dashboard after login
+###  Security & Authentication
+-  **Google OAuth** — Sign in with Google via NextAuth v5 (Auth.js)
+-  **JWT Strategy** — Secure session management with role embedded in token
+-  **Route Protection** — Middleware (proxy.ts) protects admin and user-only routes
+-  **Auto Redirect** — Admins are redirected to dashboard after login
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Category | Technology |
 |---|---|
@@ -67,7 +67,7 @@
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -155,7 +155,7 @@ Navigate to the `User` table and change the `role` field from `user` to `admin`.
 
 ---
 
-## 🗄 Database Schema
+##  Database Schema
 
 ### Entity Relationship Diagram (ERD)
 
@@ -264,7 +264,7 @@ erDiagram
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 booking-villa/
@@ -333,7 +333,7 @@ booking-villa/
 
 ---
 
-## 🔄 Application Flow
+##  Application Flow
 
 ### User Booking Flow
 
@@ -415,7 +415,7 @@ flowchart LR
 
 ---
 
-## 📜 Available Scripts
+##  Available Scripts
 
 | Script | Command | Description |
 |---|---|---|
@@ -429,7 +429,7 @@ flowchart LR
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
 This application is designed to be deployed on **[Vercel](https://vercel.com/)**:
 
@@ -442,7 +442,7 @@ This application is designed to be deployed on **[Vercel](https://vercel.com/)**
 
 ---
 
-## 📄 License
+##  License
 
 This project is private and developed as part of a learning project.
 
@@ -450,6 +450,6 @@ This project is private and developed as part of a learning project.
 
 <div align="center">
 
-**Built with ❤️ using Next.js 16 & React 19**
+**Built with ❤️. by Liv's the greatest**
 
 </div>
