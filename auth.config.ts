@@ -10,5 +10,13 @@ export const authConfig = {
   session: { strategy: "jwt" },
   pages: {
     signIn: "/signin"
+  },
+  callbacks: {
+    session({ session, token }) {
+      if (session.user && token.role) {
+        session.user.role = token.role as string;
+      }
+      return session;
+    }
   }
 } satisfies NextAuthConfig;

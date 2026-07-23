@@ -8,6 +8,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   // @ts-expect-error Type mismatch with beta version
   adapter: PrismaAdapter(prisma),
   callbacks: {
+    ...authConfig.callbacks,
     async jwt({ token, user }) {
       // Saat pertama login, ambil dari object user
       if (user) {
@@ -20,13 +21,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
       return token;
-    },
-    async session({ session, token }) {
-      // Memasukkan role dari token ke object session agar bisa dibaca di frontend/komponen
-      if (session.user) {
-        session.user.role = token.role as string;
-      }
-      return session;
     }
   }
 });
